@@ -5,9 +5,11 @@ Created on Tue Jul 16 17:44:36 2024
 
 @author: Nick Kozlov
 
-Version 0.2 - 2026-06-13
+Version 0.3 - 2026-06-13
 """
 
+# 1. CheckButtons
+# TODO: are we going to use it?
 def make_checkable(fig, axs=None, coords=None):
     from matplotlib.widgets import CheckButtons
     
@@ -22,7 +24,7 @@ def make_checkable(fig, axs=None, coords=None):
     for ax in axs:
         dct[ax] = [[line] for line in ax.lines]
     print(dct) # !!! DEBUG
-    if coords is None: coords = (0.76, 0.8, 0.24, 0.2) # ax
+    if coords is None: coords = (0.8, 0.85, 0.2, 0.15) # ax
     
     check = {}
     for ax in axs:
@@ -53,7 +55,7 @@ def make_axis_checkable(ax, lst=None, coords=None):
     # fig = ax.figure
     if lst is None: lst = [[line] for line in ax.lines]
     # print(lst) # !!! DEBUG
-    if coords is None: coords = (0.76, 0.8, 0.24, 0.2) # ax
+    if coords is None: coords = (0.8, 0.85, 0.2, 0.15) # ax
     
     lines_by_label = {l[0].get_label(): l[0] for l in lst}
     line_colors = [l.get_color() for l in lines_by_label.values()]
@@ -78,7 +80,7 @@ def make_axis_checkable(ax, lst=None, coords=None):
     
     return check
 
-def make_checkable_test(fig, axs=None, lst=None, coords=None):
+def make_figure_checkable(fig, axs=None, lst=None, coords=None):
     from matplotlib.widgets import CheckButtons
     
     def callback(label):
@@ -89,33 +91,32 @@ def make_checkable_test(fig, axs=None, lst=None, coords=None):
     if axs is None: axs = fig.axes
     print(axs) # !!! DEBUG
     if lst is None:
-        dct = {}
+        lst = []
         for ax in axs:
-            dct[ax] = [[line] for line in ax.lines]
-    print(dct) # !!! DEBUG
-    if coords is None: coords = (0.76, 0.8, 0.24, 0.2) # ax
+            lst.extend([[line] for line in ax.lines])
+    print(lst) # !!! DEBUG
+    if coords is None: coords = (0.8, 0.85, 0.2, 0.15) # fig
     
-    check = {}
-    for ax in axs:
-        lst = dct[ax]
-        print(lst) # !!! DEBUG
-        lines_by_label = {l[0].get_label(): l[0] for l in lst}
-        line_colors = [l.get_color() for l in lines_by_label.values()]
-    
-        # Make checkbuttons with all plotted lines with correct visibility
-        rax = ax.inset_axes(coords)
-        check[ax] = CheckButtons(
-            ax=rax,
-            labels=lines_by_label.keys(),
-            actives=[l.get_visible() for l in lines_by_label.values()],
-            label_props={'color': line_colors},
-            frame_props={'edgecolor': line_colors},
-            check_props={'facecolor': line_colors},
-            )
-    
-        check[ax].on_clicked(callback)
+    print(lst) # !!! DEBUG
+    lines_by_label = {l[0].get_label(): l[0] for l in lst}
+    line_colors = [l.get_color() for l in lines_by_label.values()]
+
+    # Make checkbuttons with all plotted lines with correct visibility
+    rax = fig.add_axes(coords)
+    check = CheckButtons(
+        ax=rax,
+        labels=lines_by_label.keys(),
+        actives=[l.get_visible() for l in lines_by_label.values()],
+        label_props={'color': line_colors},
+        frame_props={'edgecolor': line_colors},
+        check_props={'facecolor': line_colors},
+        )
+
+    check.on_clicked(callback)
     
     return check
+
+# 2. 
 
 
 
