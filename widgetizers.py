@@ -5,7 +5,7 @@ Created on Tue Jul 16 17:44:36 2024
 
 @author: Nick Kozlov
 
-Version 0.3 - 2026-06-13
+Version 0.4 - 2026-06-13
 """
 
 # 1. CheckButtons
@@ -116,11 +116,36 @@ def make_figure_checkable(fig, axs=None, lst=None, coords=None):
     
     return check
 
-# 2. 
+# 2. picker
+def make_axis_pickable(ax, lst=None, radius=1):
+    fig = ax.figure
+    
+    if lst is None:
+        lst = []
+        for line in ax.lines:
+            lst.append(line)
+    
+    for ln in lst:
+        ln.set_picker(True)
+        ln.set_pickradius(radius)
+    
+    # Adapted from https://matplotlib.org/stable/users/explain/figure/event_handling.html -->
+    def onpick(event):
+        thisline = event.artist
+        xdata = thisline.get_xdata()
+        ydata = thisline.get_ydata()
+        ind = event.ind
+        points = tuple(zip(xdata[ind], ydata[ind]))
+        print('onpick points:', points)
+
+    fig.canvas.mpl_connect('pick_event', onpick)
+    #<--
+
+# 3. SpanSelector
 
 
 
 ''' ---------------------------------------------------------------- '''
 if __name__ == "__main__":
     # the code in this section is not executed upon importing the module
-    print("wigetizers for matplotlib.widgets")
+    print("widgetizers for matplotlib.widgets")
