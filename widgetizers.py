@@ -5,7 +5,9 @@ Created on Tue Jul 16 17:44:36 2024
 
 @author: Nick Kozlov
 
-Version 0.5 - 2026-06-13
+Version 0.6 - 2026-06-14
+
+- add_axis_selector takes on the input a function of the type func(ax, base, signal)
 """
 
 # 1. CheckButtons
@@ -142,10 +144,100 @@ def make_axis_pickable(ax, lst=None, radius=1):
     #<--
 
 # 3. SpanSelector
-def function_name():
+# TODO: add_figure_selector is under construction
+def add_figure_selector(fig, base, func):
     from matplotlib.widgets import SpanSelector
+    import numpy as np
     
-    return
+    ax = fig.axes
+    n_fig = len(ax)
+    x = base
+    
+    def onselect(xmin, xmax):
+        print("xmin, xmax = ", xmin, xmax)
+        indmin, indmax = np.searchsorted(x, (xmin, xmax))
+        indmax = min(len(x) - 1, indmax)
+        
+        # signal_1 = signal[indmin:indmax]
+        absc = x[indmin:indmax]
+        
+        if len(absc) >= 2:
+            print(f">>>>> Interval: [{indmin} : {indmax}]")
+            print(f">>>>> Interval [s]: [{absc[0]} : {absc[-1]}]")
+            print()
+            i = 0
+            for quant in list(quantity):
+                signal_s = data[quant][indmin:indmax]
+                print(f">>>>> Average {quant} [{quantity[quant][0]}]: {np.mean(signal_s)} +- {np.std(signal_s)}")
+                print()
+                ax[i].set_title(f"Aver: {np.mean(signal_s): .2e} $\pm$ {np.std(signal_s): .2e}")
+                i += 1
+
+    span = ['' for _ in range(n_fig)]
+    for i in range(n_fig):
+        try:
+            # new matplotlib
+            span[i] = SpanSelector(
+                ax[i],
+                onselect,
+                "horizontal",
+                useblit=True,
+                props=dict(alpha=0.5, facecolor="tab:blue"),
+                interactive=True,
+                drag_from_anywhere=True
+            )
+        except:
+            # old matplotlib
+            span[i] = SpanSelector(
+                ax[i],
+                onselect,
+                "horizontal",
+                useblit=True
+            )
+    
+    return span
+
+def add_axis_selector(ax, base, signal, func):
+    from matplotlib.widgets import SpanSelector
+    import numpy as np
+    
+    x = base
+    
+    def onselect(xmin, xmax):
+        print("xmin, xmax = ", xmin, xmax)
+        indmin, indmax = np.searchsorted(x, (xmin, xmax))
+        indmax = min(len(x) - 1, indmax)
+        
+        base1 = x[indmin:indmax]
+        signal1 = signal[indmin:indmax]
+        
+        if len(base1) >= 2:
+            print(f">>>>> Interval indices: [{indmin} : {indmax}]")
+            print(f">>>>> Interval values: [{base1[0]} : {base1[-1]}]")
+            print()
+            func(ax, base1, signal1)
+
+    try:
+        # new matplotlib
+        span = SpanSelector(
+            ax,
+            onselect,
+            "horizontal",
+            useblit=True,
+            props=dict(alpha=0.5, facecolor="tab:blue"),
+            interactive=True,
+            drag_from_anywhere=True
+        )
+    except:
+        # old matplotlib
+        span = SpanSelector(
+            ax,
+            onselect,
+            "horizontal",
+            useblit=True
+        )
+    
+    return span
 
 
 
