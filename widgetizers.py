@@ -5,7 +5,7 @@ Created on Tue Jul 16 17:44:36 2024
 
 @author: Nick Kozlov
 
-Version 0.4 - 2026-06-13
+Version 0.5 - 2026-06-13
 """
 
 # 1. CheckButtons
@@ -142,7 +142,10 @@ def make_axis_pickable(ax, lst=None, radius=1):
     #<--
 
 # 3. SpanSelector
-
+def function_name():
+    from matplotlib.widgets import SpanSelector
+    
+    return
 
 
 
