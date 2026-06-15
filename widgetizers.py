@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul 16 17:44:36 2024
+https://github.com/KozlovN1/widgetizers
+A function library that simplifies the implementation of matplotlib.widgets in your code.
 
 @author: Nick Kozlov
 
