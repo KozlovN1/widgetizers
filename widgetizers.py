@@ -238,6 +238,8 @@ def add_axis_selector(ax, base, signal, func):
             useblit=True
         )
     
+    # TODO: is it possible to exctract the result of onselect from SpanSelector?
+    
     return span
 
 
