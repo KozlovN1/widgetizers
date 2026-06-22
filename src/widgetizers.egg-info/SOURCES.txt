@@ -1,0 +1,10 @@
+LICENSE
+README.md
+pyproject.toml
+src/widgetizers/__init__.py
+src/widgetizers/widgetizers.py
+src/widgetizers/widgetsExamples.py
+src/widgetizers.egg-info/PKG-INFO
+src/widgetizers.egg-info/SOURCES.txt
+src/widgetizers.egg-info/dependency_links.txt
+src/widgetizers.egg-info/top_level.txt

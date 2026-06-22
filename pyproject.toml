@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools >= 77.0.3"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "widgetizers"
+version = "0.5.3"
+authors = [
+  { name="Nick Kozlov", email="nick.kzlv@gmail.com" },
+]
+maintainers = [
+  { name="Nick Kozlov", email="nick.kzlv@gmail.com" },
+]
+description = "Implement matplotlib.widgets with ease"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/KozlovN1/widgetizers"
+Issues = "https://github.com/KozlovN1/widgetizers/issues"
