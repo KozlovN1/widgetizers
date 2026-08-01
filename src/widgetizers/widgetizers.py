@@ -3,10 +3,15 @@
 """
 https://github.com/KozlovN1/widgetizers
 A function library that simplifies the implementation of matplotlib.widgets in your code.
+Available functions:
+    - make_axis_checkable(ax, lst=None, coords=None)
+    - make_figure_checkable(fig, axs=None, lst=None, coords=None)
+    - make_axis_pickable(ax, lst=None, radius=1)
+    - add_axis_selector(ax, base, signal, func)
 
 @author: Nick Kozlov
 
-Version 0.5 - 2026-06-14
+Version 0.5.4 - 2026-08-01
 
 - add_axis_selector takes on the input a function of the type func(ax, base, signal)
 """
